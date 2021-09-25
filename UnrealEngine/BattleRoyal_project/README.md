@@ -4,7 +4,7 @@
 
 ## Intro
 
-- [1. Battle Royal Project](https://github.com/algoribi/TIL/UnrealEngine/BattleRoyal_project/01_Battle_Royal_Project.md)
+- [1. Battle Royal Project](UnrealEngine/BattleRoyal_project/01_Battle_Royal_Project.md)
   - 프로젝트의 목표
   - 개발 환경
   - 사용 텍스처 및 에셋
