@@ -102,7 +102,7 @@
 
 ## Ambient Light
 
-<img src="img/02/5-1.PNG"></img><br/>
+<img src="img/02/5-1.PNG" width="350px"></img><br/>
 
 하늘까지 만들어 줬지만 오브젝트를 보면 아직도 그림자가 부자연스럽다. 그림을 그려본 사람이라면 알 텐데, 그림자는 칠흑 같은 검은색이 아니다. 환경에 따라 그림자의 색은 영향을 받으며, 간접광과 반사광 등의 각종 고려해야 할 빛들이 많다. 이런 자연스러움을 주기 위해 **_스카이 라이트_**를 추가해 줄 것이다. (모드-라이트-스카이 라이트)
 
@@ -112,17 +112,17 @@
 
 이때 주의해야 할 점은 태양광인 Directional Light의 각도가 변경되면 하늘의 상태와 스카이 라이트의 상태는 수동으로 업데이트해 줘야 한다.
 
-<img src="img/02/5-3.PNG"></img><br/>
+<img src="img/02/5-3.PNG" width="350px"></img><br/>
 
 **하늘**의 경우 BP_Sky_Sphere의 디테일 창의 **Refresh Material**을 클릭해주면 된다.
 
-<img src="img/02/5-4.PNG"></img><br/>
+<img src="img/02/5-4.PNG" width="350px"></img><br/>
 
 **스카이 라이트**의 경우 디테일 창의 **씬 리캡처**를 클릭해주면 된다.
 
 ## Post Process Volume
 
-<img src="img/02/6-0.png" width="400px"></img><br/>
+<img src="img/02/6-0.png" width="400px" hight="600px"></img><br/>
 
 라이트 세팅의 마지막으로 영상의 후처리를 맡아줄 Post Process Volume을 세팅해 줄 것이다. 일종의 카메라 필터를 생각하면 될 것이다. 이것을 세팅해주는 이유는 간단하다. 위의 사진을 보면 내가 만든 맵에서 하늘을 바라보면 계속 하얗게 타버리는 현상이 발생하기 때문이다. Post Process Volume을 이용하여 밝기의 min 값과 max 값을 지정해줘서 해결해 보겠다. (모드-볼륨-Post Process Volume)
 
@@ -132,14 +132,14 @@
     - 기존에 렌더링 된 씬에 렌더링 효과를 더하는 작업이다.
 ```
 
-<img src="img/02/6-1.PNG" width="600px"></img><br/>
+<img src="img/02/6-1.PNG" width="350px"></img><br/>
 
 처음 Post Process Volume을 적용하면 카메라가 저 볼륨안에 들어가 있을 때만 영상 후처리가 적용된다.
 
-<img src="img/02/6-2.PNG"></img><br/>
+<img src="img/02/6-2.PNG" width="350px"></img><br/>
 
 따라서 이를 맵 전체에 적용하고 싶다면 디테일 창의 **Infinite Extent**값에 체크해준다. 이제 월드 전체를 커버해 줄 것이다.
 
-<img src="img/02/6-3.PNG"></img><br/>
+<img src="img/02/6-3.PNG" width="350px"></img><br/>
 
 이제 원래 목적이었던 빛의 min 값과 max 값을 조정해주면 더는 하늘을 바라봐도 하얗게 타는 현상이 생기지 않는다. 이걸로 기본적인 맵과 라이트 세팅이 모두 끝났다.
