@@ -79,7 +79,7 @@
 
 이제 디테일 창으로 가서 라이트를 내가 원하는 쪽으로 수정해주자.
 
-<img src="img/02/3-2.PNG"></img><br/>
+<img src="img/02/3-2.PNG" width="350px"></img><br/>
 
 ```
 # 라이트 모빌리티
@@ -122,7 +122,7 @@
 
 ## Post Process Volume
 
-<img src="img/02/6-0.PNG" width="600px"></img><br/>
+<img src="img/02/6-0.png" width="400px"></img><br/>
 
 라이트 세팅의 마지막으로 영상의 후처리를 맡아줄 Post Process Volume을 세팅해 줄 것이다. 일종의 카메라 필터를 생각하면 될 것이다. 이것을 세팅해주는 이유는 간단하다. 위의 사진을 보면 내가 만든 맵에서 하늘을 바라보면 계속 하얗게 타버리는 현상이 발생하기 때문이다. Post Process Volume을 이용하여 밝기의 min 값과 max 값을 지정해줘서 해결해 보겠다. (모드-볼륨-Post Process Volume)
 
@@ -132,7 +132,7 @@
     - 기존에 렌더링 된 씬에 렌더링 효과를 더하는 작업이다.
 ```
 
-<img src="img/02/6-1.PNG"></img><br/>
+<img src="img/02/6-1.PNG" width="600px"></img><br/>
 
 처음 Post Process Volume을 적용하면 카메라가 저 볼륨안에 들어가 있을 때만 영상 후처리가 적용된다.
 
