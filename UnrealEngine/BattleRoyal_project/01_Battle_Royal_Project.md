@@ -22,8 +22,9 @@
 
 - **[Unreal Engine 4](https://www.unrealengine.com/ko/feed?sessionInvalidated=true) 4.18.3 ver**
 - Heightmap 생성 **[Instant Terra](https://www.wysilab.com/) 2.3 ver**
+- 이미지 편집 **[CLIP STUDIO PAINT EX](https://www.clipstudio.net/kr/) 1.8.2 ver**
 
-을 기준으로 개발되었습니다.
+을 기준으로 개발되었으며, 모든 프로그램 및 자료는 정식 라이선스를 취득하여 사용하였습니다.
 
 ## 사용 텍스처 및 에셋
 
