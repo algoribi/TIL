@@ -32,7 +32,10 @@
     - 노멀맵 만들기
   - 바다 생성
   - 포그
-- [04. 폴리지](https://github.com/algoribi/TIL/blob/main/UnrealEngine/BattleRoyal_project/03_Landscape.md)
+- [04. 폴리지](https://github.com/algoribi/TIL/blob/main/UnrealEngine/BattleRoyal_project/04_Foliage.md)
   - 폴리지 모드
     - 나무 심기
+    - 에셋이란?
+    - Cull Distance
+    - 콜리전 프리셋
   - 프로시저럴 폴리지 볼륨
