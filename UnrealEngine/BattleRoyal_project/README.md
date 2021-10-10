@@ -22,8 +22,8 @@
   - 하늘 생성
   - Ambient Light
   - Post Process Volume
-- [03. 랜드스케이프](https://github.com/algoribi/TIL/blob/main/UnrealEngine/BattleRoyal_project/03_Landscape.md)
-  > 문서 수정중
+- [03. 랜드스케이프](03_Landscape.md)
+  > **개발 과정을 담은 파일이 날아가서 문서 복구 중에 있음**
   - 랜드스케이프 생성
   - 하이트맵 생성
     - InstantTerra
