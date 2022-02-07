@@ -187,3 +187,4 @@ A timestamp is accepted as valid if it is greater than the median timestamp of p
 </br>
 
 ## 7. 저장 공간 재확보 (Reclaiming Disk Space)
+> 
