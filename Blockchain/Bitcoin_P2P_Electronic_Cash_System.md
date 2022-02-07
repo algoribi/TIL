@@ -4,9 +4,9 @@
 
 ## 목차
 
-[1. 서론](#1.-서론)
+1. [서론](#1.-서론)
 2. [거래 (Transaction)](#2.-거래-(Transaction))
-[3. 타임스탬프 서버 (Timestamp Server)](#3.-타임스탬프-서버-(Timestamp-Server))
+3. [타임스탬프 서버 (Timestamp Server)](#3.-타임스탬프-서버-(Timestamp-Server))
 4. [작업증명 (Proof-of-Work)](#4.-작업증명-(Proof-of-Work))
 5. [네트워크 (Network)](#5.-네트워크-(Network))
 6. [인센티브 (Incentive)](#6.-인센티브-(Incentive))
