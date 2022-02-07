@@ -5,12 +5,12 @@
 ## 목차
 
 1. [서론](#1.-서론)
-2. [거래 (Transaction)](<#2.-거래-(Transaction)>)
-3. [타임스탬프 서버 (Timestamp Server)](<#3.-타임스탬프-서버-(Timestamp-Server)>)
-4. [작업증명 (Proof-of-Work)](<#4.-작업증명-(Proof-of-Work)>)
-5. [네트워크 (Network)](<#5.-네트워크-(Network)>)
-6. [인센티브 (Incentive)](<#6.-인센티브-(Incentive)>)
-7. [저장 공간 재확보 (Reclaiming Disk Space)](<#7.-저장-공간-재확보-(Reclaiming-Disk-Space)>)
+2. [거래 (Transaction)](#2.-거래-(Transaction))
+3. [타임스탬프 서버 (Timestamp Server)](#3.-타임스탬프-서버-(Timestamp-Server))
+4. [작업증명 (Proof-of-Work)](#4.-작업증명-(Proof-of-Work))
+5. [네트워크 (Network)](#5.-네트워크-(Network))
+6. [인센티브 (Incentive)](#6.-인센티브-(Incentive))
+7. [저장 공간 재확보 (Reclaiming Disk Space)](#7.-저장-공간-재확보-(Reclaiming-Disk-Space))
 8. [](#)
 9. [](#)
 10. [](#)
@@ -180,6 +180,15 @@ A timestamp is accepted as valid if it is greater than the median timestamp of p
 </br>
 
 ## 6. 인센티브 (Incentive)
+> 블록의 첫 거래는 해 당 블록을 생성한 사람이 소유하게 되는 신규 코인을 생성하
+는 특별한 거래가 된다. 이는 노드들에게 네트워크를 유지할 인 센티브(incentive)를 제공하
+고, 코인들을 발행할 중앙 기관이 없기 때문에 , 코인들이 최초로 유통 (circulation)될 방법을
+제공한다.
+> 인센티브는 거래 수수 료로도 제공될 수 있다. 거래의 결과 값이 입력값보다 작다면 그
+차이가 해 당 거래를 포함하는 블록에 인센티브 값으로 추가되는 거래 수수료인 것이다. 미
+리 정해 진 수량의 코인이 모두 발행되고 나면 인센티브는 거래 수수료 체제로 전환되고 인
+플레이션으로부터 자유로워(inflation free)진다.
+> 이 인 센티브는 노드들이 정직함을 유지하는 것을 도와줄 수 있다. 
 
 </br>
 
