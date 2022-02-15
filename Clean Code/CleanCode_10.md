@@ -29,36 +29,85 @@ class Employee {
 
 ### 액터, 책임의 정의
 
-결국 책임을 정의하려면 **서비스를 사용하는 주체자**의 관점에서 바라보는 것이 중요하다.
-
-* 도서관 관리 시스템 서비스 : 사서, 도서관 이용자
-
-이와 같이 서비스를 이용하는 주체자를 **액터(actor)**라고 한다. 결국 단일 책임 원칙에서 말하는 **책임이란 하나의 액터(actor)를 위한 기능 집합**이다. </br>
+결국 책임을 정의하려면 **서비스를 사용하는 주체자**의 관점에서 바라보는 것이 중요하다. 여기서 서비스를 이용하는 주체자를 **액터(actor)**라고 한다. 결국 단일 책임 원칙에서 말하는 **책임이란 하나의 액터(actor)를 위한 기능 집합**이다. </br>
 
 ```java
-class UserAuthAndSettings {
-	constructor(user) {
-		this.user = user;
-		}
-		
-	changeSettings(settings) {
-		if (this.verifyCredentials()) {
-			// ...
-		}
-	}
-	
-	verifyCredentials() {
-		// ...
-	} 
+public class Person {
+    private String name;
+    private int age;
+    
+    public void eat() { ... }
+    
+    public void sleep() { ... }
+    
+    public void coding() { ... }
 }
 ```
 
+위와 같은 Person 클래스가 있을 때, 서비스를 사용하는 사람 즉, 모든 사람은 이름이 있고, 나이가 있으며, 먹고 잔다. 하지만 coding() 메서드는 개발자이거나 개발에 취미가 있는 사람만 하는 행동이기 때문에 SRP를 위반한다. 
 
+즉, '모든 사람들을 위한 기본적인 기능' 외에 '개발자를 위한 코딩 기능'이라는 두 가지의 책임을 가지게 되는 것이다.
 
+```java
+public class Person {
+    private String name;
+    private int age;
+    
+    public void eat() { ... }
+    
+    public void sleep() { ... }
+}
 
+public class Programmer extends Person {
+    public void coding() { ... }
+}
+```
 
-결국 이는 개방 폐쇄 원칙과도 닿아 있다. 소프트웨어 개체는 확장에 개방적이여야 하며, 수정에는 폐쇄적이어야 하기 때문이다. 
+이런 식으로 책임에 맞게 클래스를 나누게 된다면 SRP을 지킬 수 있다.
 
+### 응집도
+> 응집도는 높이고, 결합도는 낮춘다
 
+저자는 클래스 인스턴스 변수의 개수가 작아야 한다고 말한다. 이는 즉, **클래스의 응집도를 높이라**는 것과 일맥상통이다.
 
+응집도가 높다는 것은 어떤 뜻일까? 이는 **클래스에 속한 메서드와 변수가 서로 의존하며 논리적인 단위로 묶인다는 의미**이다. 
 
+```java
+public class Stack {
+	pricate int topOfStack = 0;
+	List<Integer> elements = new LinkedList<Integer>();
+
+	public int size() {
+		return topOfStack;
+	}
+
+	public void push(int element) {
+		topOfStack++;
+		elements.add(element);
+	}
+
+	public int pop() throws PoppedWhenEmpty {
+		if (topOfStack == 0) 
+			throw new PoppedWhenEmpty();
+		int element = elements.get(--topOfStack);
+		elements.remove(topStack);
+		return element;
+	}
+}
+```
+
+위의 Stack 클래스는 응집도가 매우 높은 예제이다. size() 메서드를 제외한 메서드들이 클래스의 인스턴스 변수를 모두 사용하고 있기 때문이다. 
+
+- **Q.** p.177에서 '모든 인스턴스 변수를 메서드마다 사용하는 클래스는 응집도가 **가장 높다.** 일반적으로 이처럼 응집도가 가장 높은 클래스는 가능하지도 바람직하지도 않다.'라고 했는데, 어쨌든 응집도는 높을수록 좋은 것 아닌가? 왜 가능하지도 바람직하지도 않다는 것인지?
+
+만약 클래스가 응집력을 잃는다는 판단이 들면(ex. 일부 메서드에서만 사용되는 인스턴스 변수가 있다.) 응집도가 더 높은 두 개 이상의 다른 클래스들로 쪼개라.
+</br>
+
+### '변경'하기 쉬운 클래스, '변경'으로부터 격리
+> 대다수 시스템은 지속적인 변경이 가해진다. 그리고 뭔가 변경할 때마다 시스템이 의도대로 동작하지 않을 위험이 따른다. (p.185)
+
+사실, 하드코딩이 좀 더 빠르게 개발할 수 있다. 하지만 우리가 객체지향 5원칙을(그중에서 특히 SRP, OCP) 잘 지키며 코드를 설계하는 이유는 바로 변경하기 쉬운 클래스를 만들기 위해 즉, **유지 보수**를 위해서 이다. 
+
+'변경'이라 함은 고객의 요구에 의해 기능적인 변경이 필요한 것일 수도 있고, 의외로 빈번하게 일어나는 OS나 외부 라이브러리의 업데이트로 인한 것도 포함이다. 
+
+어쨌든, 이런 유지보수 이슈는 프로젝트가 사라지지 않는 한 개발자가 평생 안고 가야 하는 것이다. 그렇다면 우리는 유지 보수가 쉬운 코드를 짜는 것이 좋다는 것은 더 말할 필요가 없을 것이다.
