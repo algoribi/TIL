@@ -144,7 +144,7 @@ public interface EmployeeFactory {
 }
 ```
 
-위와 같이 EmployeeFactory 인터페이스를 만들어 makeEmployee() 추상 메소드를 선언하여 구현체를 따로 둘 수 있다.이는 약한 결합을 이루게 해 줘 유지보수를 용이하게 해 준다.
+위와 같이 EmployeeFactory 인터페이스를 만들어 makeEmployee() 추상 메서드를 선언하여 구현체를 따로 둘 수 있다.이는 약한 결합을 이루게 해 줘 유지보수를 용이하게 해 준다.
 
 ```java
 public class EmployeeFactoryImpl implements EmployeeFactory {
@@ -239,14 +239,14 @@ writeField(outputStream, name);
 
 위 코드의 outputStream과 name은 Point에서의 좌표값처럼 하나의 값을 표현하는 것도 아니고, 어떤 자연적인 순서나 규칙이 있는 것도 아니다.
 
-이런 경우 가능한 단항 함수로 바꾸는 것이 좋다. 예를 들면 아래와 같이 outputStream 객체의 구성원으로 writeField 메소드를 넣어주거나
+이런 경우 가능한 단항 함수로 바꾸는 것이 좋다. 예를 들면 아래와 같이 outputStream 객체의 구성원으로 writeField 메서드를 넣어주거나
 
 ```java
 outputStream.writeField(name);
 ```
 
 outputStream을 현재 클래스의 구성원 변수로 만들어서 인수로 넘기지 않는 방법도 있다. </br>
-아니면 FieldWriter라는 새 클래스를 만들어 구성자에서 outputStream을 받고 write 메소드를 구현하는 방법도 있다.
+아니면 FieldWriter라는 새 클래스를 만들어 구성자에서 outputStream을 받고 write 메서드를 구현하는 방법도 있다.
 
 ### 매개변수가 세 개인 경우
 
