@@ -1,4 +1,4 @@
-# 8장 경계
+# 8장 경계 (Boundaries)
 
 > 시스템에 들어가는 모든 소프트웨어를 직접 개발하는 경우는 드물다. 때로는 패키지를 사고, 때로는 오픈 소스를 이용한다. 때로는 사내 다른 팀이 제공하는 컴포넌트를 사용한다. 어떤 식으로든 이 외부 코드를 우리 코드에 깔끔하게 통합해야만 한다. (p.144)
 
@@ -155,17 +155,150 @@ public void testLogAppender() {
 ## 아직 존재하지 않는 코드를 사용하기
 > 경계와 관련해 또 다른 유형은 아는 코드와 모르는 코드를 분리하는 경계다. (p.150)
 
-지금 알지 못하는 코드(ex. 다른 팀에서 아직 구현이 안 된 부분)를 구현할 때도 경계는 유용하게 쓰일 수 있다. 
+저자는 경계에 관해 이야기를 하며 무선통신 시스템에 들어갈 소프트웨어 개발에 참여했던 일화를 이야기해 주었다. 이 소프트웨어에는 '송신기'라는 하위 시스템이 있었는데, 저자의 팀은 이것에 관한 지식이 거의 없었다고 한다. 
+
+그렇다면 두 손 두 발 다 놓고 있어야 할까? 그렇지 않다. 어쨌든, 우리가 '송신기'에 관한 지식은 없어도, '송신기' 모듈에게 원하는 기능은 알고 있기 때문에 여기서 바로 '경계'가 생기는 것이다.
+
+> 지정한 주파수를 이용해 이 스트림에서 들어오는 자료를 아날로그 신호로 전송하라.
+
+어차피 우리가 구현해야 할 부분은 '아는 코드'이다. 그렇다면 우리는 이것을 자체적인 인터페이스를 정의하여 구현하는 것이다.
 
 * 필요한 인터페이스를 정의/구현하면 전적으로 통제가 가능해짐
 * 테스트도 간편하게 진행할 수 있음
+
+즉, 아직 존재하지 않는 코드 부분(모르는 코드, ex. 송신기 API)을 신경 쓰지 않고 일단 구현한다. 나중에 저쪽 팀이 송신기 API를 구현하면 우리는 **Adapter 패턴**으로 인터페이스 간의 호환성 문제를 해결하면 된다.
+
+### Adapter 패턴
+> Adapter 패턴은 B를 A처럼 포장하여 A로 사용할 수 있게 하는 패턴이다.
+
+예를 들어 A사는 몇 년 전부터 식권 발매 시스템을 개발하여 운영하고 있다. 이 시스템이 안정적으로 운영되면서 최근 같은 사업을 하던 G그룹이 인수를 제안해왔고, 시스템을 통합하기로 했다. 두 회사의 시스템은 다음과 같다.
+
+<img src="img/8_ex.png" width="600px"></img><br/>
+
+```java
+// A사 식권 발매 시스템
+
+ public interface TicketA {
+ 
+    public void choice(int token);
+    public void print();
+    public void buy();
+}
+
+public class TicketSystemA implements TicketA {
+ 
+    @Override
+    public void choice(int token) {
+        System.out.println("선택된 식권 타입은... " + token + " 입니다");
+    }
+ 
+    @Override
+    public void print() {
+        System.out.println("식권을 출력합니다..");        
+    }
+ 
+    @Override
+    public void buy() {
+        System.out.println("식권을 구매합니다..");
+    }
+}
+```
+```java
+// G사 식권 발매 시스템
+
+public interface TicketG {
+ 
+    public void choice(int token);
+    public void print();
+    public void buyOnOffline();
+    public void buyOnOnline();
+    public String getMenu();
+}
+
+public class TicketSystemG implements TicketG{
+ 
+    @Override
+    public void choice(int token) {
+        System.out.println("선택된 식권 타입은... " + token + " 입니다");
+    }
+ 
+    @Override
+    public void print() {
+        System.out.println("식권을 출력합니다..");        
+    }
+ 
+    @Override
+    public void buyOnOffline() {
+        System.out.println("오프라인으로 구매합니다..");       
+    }
+ 
+    @Override
+    public void buyOnOnline() {
+        System.out.println("온라인으로 구매합니다..");        
+    }
+ 
+    @Override
+    public String getMenu() {
+        return "메뉴정보를 DB에서 가져왔습니다.";
+    }
+}
+```
+
+이제 기존 G사의 시스템 안에서 인수한 A사의 시스템이 정상적으로 돌아가야 하기 대문에, A사의 인터페이스를 G사에 맞게 다시 정의해 주어야 한다. 
+하지만 다시 정의해 준다면 이미 같은 기능(식권 선택, 식권 출력, 오프라인 구매)이 있기 때문에 중복이 발생한다. 이 경우는 겨우 3개의 중복이지만 어떤 거대한 시스템이었다면? 엄청난 비효율을 불러올 것이다.
+
+이때 필요한 것이 **Adapter 패턴**이다. 
+
+```java
+public class TicketAdapter implements TicketG{
+ 
+    private TicketA ticket;
+    
+    public TicketAdapter(TicketA ticket) {
+        super();
+        this.ticket = ticket;
+    }
+ 
+    @Override
+    public void choice(int token) {
+        ticket.choice(token);
+    }
+ 
+    @Override
+    public void print() {
+        ticket.print();
+    }
+ 
+    @Override
+    public void buyOnOffline() {
+        ticket.buy();
+    }
+ 
+    @Override
+    public void buyOnOnline() {
+        throw new UnsupportedOperationException("지원되지 않는 기능");
+    }
+ 
+    @Override
+    public String getMenu() {
+        throw new UnsupportedOperationException("지원되지 않는 기능");
+    }
+}
+```
+
+위의 어뎁터를 보면, 생성자로 A사의 TicketSystemA을 그대로 받아오고, G사의 인터페이스를 구현하여 그대로 사용할 부분은 A사의 메서드를 호출하고, 새로운 기능의 경우 예외 처리를 한다. 
+
+이제 G사의 인터페이스로 A사의 시스템 클래스를 성공적으로 사용할 수 있게 되었다. </br>
+만약 어뎁터 패턴이 없었다면 G사와 A사의 개발자들은 기존의 코드를 모두 옮기는 노가다를 해야 했을 것이다.
 
 </br>
 
 ## 깨끗한 경계
 > 변경이 이루어질 때 경계를 통해 통제하고 있었다면 향후 변경으로 인해 발생하는 비용이 줄어들 수 있다.
 
-* 경계에 위치하는 코드는 깔끔히 분리
-* 기대치를 정의하는 테스트 케이스 작성
-
-통제가 불가능한 외부 패키지에 의존하는 것보다는 통제가 가능한 우리 코드에 의존하는 편이 좋다.
+- 경계에 위치하는 코드는 깔끔히 분리
+    * 기대치를 정의하는 테스트 케이스 작성
+    * 이쪽 코드에서 외부 패키지를 세세하게 알아야 할 필요가 없다.
+    * 통제 불가능한 외부 패키지에 의존하는 대신 통제 가능한 우리 코드에 의존하는 편이 훨씬 좋다.
+- 외부 패키지를 호출하는 코드를 가능한 줄여 경계를 관리
+    * 새로운 클래스로 경계를 감싸거나 **Adapter 패턴**을 사용해 우리가 원하는 인터페이스를 패키지가 제공하는 인터페이스로 변환
