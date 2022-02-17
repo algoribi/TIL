@@ -5,16 +5,145 @@
 이 장에서는 소프트웨어 경계를 깔끔하게 처리하는 기법과 기교를 살펴본다.
 
 ## 외부 코드 사용하기
+> 인터페이스 제공자와 인터페이스 사용자 사이에는 입장차가 있다.
+
+- 제공자 : 적용성을 최대한 넓히려 함 (더 많은 환경에서 돌아가야 더 많은 고객이 구매하니까)
+- 사용자 : 자신의 요구에 집중하는 인터페이스를 바람
+
+결국 이러한 입장차로 시스템 경계에서 문제가 생길 소지가 많다. 예를 들어 java.util.Map을 보자.
+
+```
+// Map이 제공하는 메서드
+- clear() void - map
+- containsKey(Object key) boolean - Map
+- containsValue(Object value) boolean - Map
+- entrySet() set - Map
+- equals(Object o) boolean - Map
+- get(Object key)Object - Map
+- getClass() Class<? extends Object> - Object
+- hashCode() int - Map
+- isEmpty() boolean - Map
+- keySet() Set - Map
+- notify() void - Object
+- notifyAll() void - Object
+- put(Object key, Object value) Object - Map
+- putAll(Map t) void - Map
+- remove(Object key) Object - Map
+- size() int - Map
+- toString() String - Object
+- values() Collection - Map
+- wait() void - Object
+- wait(long timeout) void - Object
+- wait(long timeout, int nanos) void - Object
+```
+
+Map은 굉장히 다양한 인터페이스로 수많은 기능을 제공한다. 이는 굉장히 유용하지만 동시에 위험도 크다. 예를 들어
+1. Map을 만들어 인수나 반환으로 이리 저리 넘길 경우 clear() 메서드를 통해 어디선가 예상치 않게 지울 수 있다. Map사용자라면 누구나 clear()을 사용할 권한이 있기 때문이다. </br> 이렇듯 필요하지 않은 인터페이스를 의도치 않게 사용하게 될 수 있다.
+2. Map에 특정 객체 유형만 저장하기로 결정했다고 가정하자. 그렇지만 Map은 객체 유형을 제한하지 않는다. 마음만 먹으면 사용자는 어떤 객체 유형도 추가할 수 있다.
+
+물론 위의 2번의 경우 제네릭스(Generics)를 사용하면 해결할 수 있는 문제이다.
+
+```java
+// 제네릭스를 통해 Sensor라는 객체만을 담는 Map을 만든다.
+Map<String, Seneor> Sensors = new HashMap<Sensor>();
+...
+// Sensor 객체를 가져온다.
+Sensor s = sensors.get(sensorId);
+```
+
+하지만 2번의 방법도 문제는 있다. Map<String, Sensor> 인스턴스를 여기저기로 넘긴다면, Map 인터페이스가 변할 경우, 수정할 코드가 상당히 많아진다.
+
+인터페이스가 변할 가능성이 거의 없다고 여길지도 모르지만, 자바 5가 제네릭스를 지원하면서 Map 인터페이스가 변했다는 사실을 명심해야 한다. 
+
+그렇다면 어떻게 코드를 짜야 이런 외부 코드의 경계 인터페이스에서 자유로워질 수 있을까?
+
+```java
+public class Sensors {
+    private Map sensors = new hashMap();
+
+    public Sensor getById(String id) {
+        return (Sensor) sensors.get(id);
+    }
+
+    // 이하 생략
+}
+```
+
+경계 인터페이스인 Map을 Sensors 안으로 숨긴다. 이렇게 되면
+1. Map 인터페이스가 변하더라도 나머지 프로그램에는 영향을 미치지 않는다.
+2. Sensors 객체를 사용하는 사용자는 외부 라이브러리를 어떤 식으로 사용하는지 신경쓰지 않아도 된다.
+3. 필요하지 않는 인터페이스(위의 예제 에서는 clear()와 같은)를 제공하지 않을 수 있다.
+이 모든 것은 Sensors 클래스 안에서 객체 유형을 관리하고 변환하기 때문이다.
+
+그렇다고 Map 클래스를 사용할 대마다 위와 같이 캡슐화하라는 소리가 아니다. Map을(혹은 이러한 경계 인터페이스를) 여기저기 넘기지 말라는 뜻이다.
+
+즉, 이러한 경계 인터페이스가 이용하는 클래스의 밖으로 노출되지 않도록 주의하라는 뜻이다. 하지만 피치 못하게 노출될 경우에 위와같이 캡슐화를 통해 설계 규칙을 지키도록 강제하는 것이 좋다.
+
+</br>
 
 ## 경계 살피고 익히기
+> 외부 패키지 테스트가 우리 책임은 아니다. 하지만 우리 자신을 위해 우리가 사용할 코드를 테스트하는 편이 바람직하다. (p.146)
 
--> 외부 라이브러리를 사용하기 전에 먼저 간단한 테스트 케이스를 작성해 외부 코드를 익히는 것이다. 이를 **학습 테스트**라 부른다.
+타사 라이브러리를 처음 가져왔을 때 사용법이 분명치 않다면 우리는 대개
+1. 하루나 이틀(혹은 더 많은 시간을) 문서를 읽으며 사용법을 결정
+2. 코드를 작성해 라이브러리가 예상대로 동작하는지 확인하고, 디버깅의 반복
 
-학습 테스트는 우리 프로그램에서 사용하려는 방식대로 외부 API를 호출하고, 통제된 환경에서 API를 제대로 이해하는지를 확인하는 셈이다. 
+**학습 테스트**는 위와 다르게 외부 코드를 익히고 통합하는 과정을 쉽게 할 수 있다.
 
-## log4j 익히기
+- 곧바로 우리쪽 코드를 작성해 외부 코드를 호출하는 기존의 방법 대신 먼저 간단한 테스트 케이스를 작성해 외부 코드를 익힌다.
+- 프로그램에서 사용하려는 방식대로 외부 API를 호출한다. 통제된 환경에서 API를 제대로 이해하는지를 확인하는 셈이다.
 
-## 학습 테스트는 공짜 이상이다
+즉, 학습 테스트는 API를 사용하려는 목적에 초점을 맞춘다.
+
+### log4j 익히기
+
+**학습 테스트**가 어떻게 진행되는지 보기 위해 로깅 기능을 직접 구현하는 대신 아파치의 log4j 패키지를 사용하려 한다고 가정하자.
+1. 패키지를 내려 받아 소개 페이지를 연다.
+2. 문서를 자세히 읽기 전에 첫 번째 테스트 케이스를 작성한다.
+
+```java
+// 화면에 "hello"를 출력하는 테스트 케이스이다.
+@Test
+public void testLogCreate() {
+    Logger logger  = Logger.getLogger("MyLogger");
+    logger.info("hello");
+}
+```
+
+3. 테스트 케이스를 돌려본다.
+    - Appender라는 뭔가가 필요하다는 오류가 발생한다.
+4. 문서를 읽어보니 ConsoleAppender 라는 클래스가 있다. 그래서 ConsoleAppender 를 생성한 후 테스트 케이스를 다시 돌린다.
+
+```java
+@Test
+public void testLogAddAppender() {
+    Logger logger = Logger.getLogger("MyLogger");
+    ConsoleAppender appender = new CondoleAppender();
+    logger.addAppender(appender);
+    logger.info("hello");
+}
+```
+
+5. 이번에는 Appender에 출력 스트림이 없다는 사실을 발견한다. 구글을 검색한 후 아래와 같이 다시 시도해본다.
+
+```java
+@Test
+public void testLogAppender() {
+    Logger logger = Logger.getLogger("MyLogger");
+    logger.removeAllAppenders();
+    logger.addAppender(new ConsoleAppender(
+        new PatternLayout("%p %t %m%n"),
+        ConsoleAppender.SYSTEM_OUT));
+    logger.info("hello");
+}
+```
+
+이제서야 "hello"가 들어간 로그 메시지가 콘솔에 찍힌다.
+
+이런식으로 **학습 테스트**를 통해 log4j의 기능을 익히고, 익힌 지식을 독자적인 로거 클래스로 캡슐화한다. </br>
+그러면 나머지 프로그램은 log4j의 경계 인터페이스를 몰라도 된다.
+
+### 학습 테스트는 공짜 이상이다
 
 -> 학습 테스에 드는 비용은 없다. 오히려 필요한 지식만 확보하는 손쉬운 방법이다. 따라서 학습 테스트는 공짜 이상이다. 
 
