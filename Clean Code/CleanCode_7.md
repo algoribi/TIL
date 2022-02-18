@@ -110,6 +110,8 @@ try {
 
 따라서 지금은 안정적인 소프트웨어를 제작하는 요소로 확인된 예외가 반드시 필요하지는 않다는 사실이 분명해졌다.
 
+- **Q.**
+
 </br>
 
 ## 예외에 의미를 제공하라
@@ -140,9 +142,7 @@ try {
 }
 ```
 
-이 코드는 외부 라이브러리가 던질 예외를 모두 잡아낸다. 이런 구조는 외부 라이브러리와 프로그램 사이의 의존성이 높아진다. 
-
-이걸 감싸기(Wrapper) 클래스를 통해 호출하는 라이브러리 API를 감싸는 구조로 변경해 보겠다.
+이 코드는 예외에 대응하는 방식이 예외 유형과 무관하게 거의 동일하다.이 경우 감싸기(Wrapper) 클래스를 통해 호출하는 라이브러리 API를 감싸면서 예외 유형 하나를 반환하면 된다.
 
 ```java
 LocalPort port = new LocalPort(12);
@@ -160,7 +160,7 @@ public class LocalPort { // Wrapper 클래스
 	private ACMEPort innerPort; // 외부 라이브러리
 	
 	public LocalPort(int portNumber) {
-		innerPort = new ACMEPort(portNumber);
+		innerPort = new ACMEPort(portNumber); // 생성자로 외부 라이브러리 객체 생성
 	}
 	
 	public void open() {
@@ -177,6 +177,8 @@ public class LocalPort { // Wrapper 클래스
 	...
 }
 ```
+
+여기서 LocalPort 클래스는 단순히 외부 라이브러리 클래스(ACMEPort)가 던지는 예외를 잡아 변환하는 감싸기(Wrapper) 클래스일 뿐이다.
 
 이런 감싸기(Wrapper) 클래스로 API를 감싸면 좋은 점은 다음과 같다.
 1. 외부 API를 감싸면 외부 라이브러리와 프로그램 사이에 의존성이 크게 줄어든다. 따라서 나중에 다른 라이브러리로 갈아타도 비용이 적다.
