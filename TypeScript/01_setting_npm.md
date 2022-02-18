@@ -104,3 +104,17 @@ package.json 파일을 보면 하단에 dependencies가 생성된 것을 볼 수
 1. npm init으로 생성한 package.json
 2. npm install로 생성한 express node module
 을 확인할 수 있다.
+
+## VSCode에서 node.js 실행해보기
+
+test.js 파일을 만들어 다음과 같은 코드를 작성하고, 터미널 창에서 무사히 실행되는지 확인해본다.
+
+```node.js
+var num1 = 10;
+var num2 = 20;
+var num3 = num1 + num2;
+
+console.log(num3);
+```
+
+<img src="img/02.png" width="600px"></img><br/>
