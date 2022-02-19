@@ -119,4 +119,6 @@ var num3 = num1 + num2;
 console.log(num3);
 ```
 
+`node .\[file name].js`
+
 <img src="img/02.png" width="300px"></img><br/>
