@@ -1,4 +1,5 @@
 # Today I Learned
+
 > 좋은 개발자가 되기 위해 공부한 것들을 기록한다. [20.10.19 ~ ]
 
 ## 분류
@@ -10,6 +11,10 @@
 - [10장 : 클래스](https://github.com/algoribi/TIL/blob/main/Clean%20Code/CleanCode_10.md)
 - [7장 : 오류 처리](https://github.com/algoribi/TIL/blob/main/Clean%20Code/CleanCode_7.md)
 - [8장 : 경계](https://github.com/algoribi/TIL/blob/main/Clean%20Code/CleanCode_8.md)
+
+### 📘 TypeScript
+
+- [설치](https://github.com/algoribi/TIL/blob/main/TypeScript/01_setting_npm.md)
 
 ### 📘 Blockchain
 
