@@ -2,7 +2,7 @@
 
 ## npm이란?
 
-Node Package Manager의 약자이다. 이름처럼 npm은 Node.js의 패키지를 설치하고 관리해주는 도구이다. 
+Node Package Manager의 약자이다. 이름처럼 npm은 Node.js의 패키지를 설치하고 관리해주는 도구이다.
 
 ```
 ex) Python의 pip, Ruby의 gem 등...
@@ -11,12 +11,13 @@ ex) Python의 pip, Ruby의 gem 등...
 일반적인 경우 npm은 Node.js를 설치하면 자동으로 설치된다.
 
 ## 설치
+
 > [Node.js 설치 페이지](https://nodejs.org/en/)
 
 설치 페이지를 보면 LTS와 Stable 버전이 있는데 차이는 다음과 같다.
 
-* LTS(Long Term Supported) 버전 : 짝수 버전이 LTS 버전으로 안정성과 보안성에 초점을 두어 개발한다.
-* Stable 버전 : 홀수 버전이 Stable 버전으로 잦은 업데이트를 진행한다.
+- LTS(Long Term Supported) 버전 : 짝수 버전이 LTS 버전으로 안정성과 보안성에 초점을 두어 개발한다.
+- Stable 버전 : 홀수 버전이 Stable 버전으로 잦은 업데이트를 진행한다.
 
 프론트 개발은 Stable 버전을 서버로 사용하려면 LTS를 추천한다.
 
@@ -29,7 +30,7 @@ ex) Python의 pip, Ruby의 gem 등...
 터미널창에서 `npm init` 명령어를 실행한다.
 
 ```
-PS D:\...\workSpace\Nodejs> npm init 
+PS D:\...\workSpace\Nodejs> npm init
 This utility will walk you through creating a package.json file.
 It only covers the most common items, and tries to guess sensible defaults.
 
@@ -74,7 +75,7 @@ npm notice
 PS D:\...\workSpace\Nodejs>
 ```
 
-`npm init`는 node.js를 실행하기 위한 initial 과정으로 이 과정을 통해 package.json 파일을 프로젝트 디렉토리에 생성해준다. 
+`npm init`는 node.js를 실행하기 위한 initial 과정으로 이 과정을 통해 package.json 파일을 프로젝트 디렉토리에 생성해준다.
 
 package.json은 npm을 통해 생성되는 node관련 component들의 dependency를 관리하는 모듈로서, Maven의 pom.xml과 비슷한 역할이라 생각하면 이해가 쉬울 수 있다.
 
@@ -98,12 +99,13 @@ package.json 파일을 보면 하단에 dependencies가 생성된 것을 볼 수
 
 또한 devDependencies로 추가되는 경우 배포하기 위한 패키징에 포함시키지 않도록 구분하여 관리할 수 있다. 쉽게 생각하자면 Testing 관련 라이브러리, 로그 관련 라이브러리 등 개발 환경에서 분석을 위해 추가한 라이브러리를 운영환경에 적용하지 않도록 관리할 수 있는 라이브러리 디펜던시라 할 수 있다.
 
-<img src="img/01.png" width="600px"></img><br/>
+<img src="img/01.png" width="300px"></img><br/>
 
 설치를 무사히 마쳤다면 위와 같이 탐색기에서
+
 1. npm init으로 생성한 package.json
 2. npm install로 생성한 express node module
-을 확인할 수 있다.
+   을 확인할 수 있다.
 
 ## VSCode에서 node.js 실행해보기
 
@@ -117,4 +119,4 @@ var num3 = num1 + num2;
 console.log(num3);
 ```
 
-<img src="img/02.png" width="600px"></img><br/>
+<img src="img/02.png" width="300px"></img><br/>
