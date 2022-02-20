@@ -44,7 +44,6 @@ function gameStart() {
         } else {
             if (input[0] == 1) {
                 gameReSet();
-                console.log("-------새 게임을 시작합니다!-------");
             } else {
                 console.log("-------게임을 종료합니다!-------");
                 rl.close();
@@ -116,6 +115,7 @@ function gameReSet() {
     counterTime = 1;
     ansFlag = 0;
     chkReGame = 0;
-
+    
+    console.log("-------새 게임을 시작합니다!-------");
     console.log("> 숫자를 입력해 주세요.");
 }
