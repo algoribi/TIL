@@ -69,7 +69,7 @@ function setAnswerNumber() {
 }
 
 function chkAnswer(arr) {
-    let numberI = [false, false, false, false, false, false, false, false, false, false]; // 사용자의 룰 미숙지로 중복값 입력시, s혹은 b의 카운트의 중복을 막기 위해 체크
+    let numberI = [false, false, false, false, false, false, false, false, false, false]; // 사용자의 룰 미숙지로 중복 값 입력 시, s혹은 b의 카운트의 중복을 막기 위해 체크
     let s = 0, b = 0;
     for (let i = 0; i < 3; i++) {
         if (numberI[arr[i]] == false && arr[i] == ansNumber[i])
