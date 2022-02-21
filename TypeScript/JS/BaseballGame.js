@@ -1,12 +1,14 @@
 const readline = require('readline');
+const { start } = require('repl');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
 let chkNumber = [false, false, false, false, false, false, false, false, false, false];
-let ansNumber = [], counterTime = 1, zeroArr = [0, 0, 0], chkReGame = 0;
+let ansNumber = [], counterTime = 1, chkReGame = 0;
 let ansFlag = 0; // 0 : 정답이 아닌 상태, 1 : 정답을 맞힌 상태, 2 : 사용자가 게임을 포기한 상태
+let zeroArr = JSON.stringify([0, 0, 0]);
 
 infoPrint();
 gameStart();
@@ -33,7 +35,7 @@ function gameStart() {
         if (chkReGame == 0) {
             chkAnswer(input);
 
-            input.splice(0);
+            input.splice(0, input.length - start);
             counterTime++;
             
             if (ansFlag != 0) {
@@ -43,7 +45,7 @@ function gameStart() {
                 console.log("> 숫자를 입력해 주세요.");
         } else {
             if (input[0] == 1) {
-                input.splice(0);
+                input.splice(0, input.length - start);
                 gameReSet();
             } else {
                 console.log("-------게임을 종료합니다!-------");
@@ -80,7 +82,7 @@ function chkAnswer(arr) {
     }
     
     // output
-    if (JSON.stringify(arr) === JSON.stringify(zeroArr)) { // 사용자가 게임을 포기한 경우
+    if (JSON.stringify(arr) === zeroArr) { // 사용자가 게임을 포기한 경우
         console.log("😵😵😵Give UP!!!😵😵😵");
         console.log("정답 : " + ansNumber + "\n");
         ansFlag = 2;
@@ -106,13 +108,15 @@ function reGamePrint() {
 }
 
 function gameReSet() {
-    setAnswerNumber();
+    ansNumber.splice(0, 3);
 
     for (let i = 0; i < 10; i++) {
         if (chkNumber[i] == true)
             chkNumber[i] = false;
     }
-    ansNumber.splice(0, 3);
+
+    setAnswerNumber();
+    
     counterTime = 1;
     ansFlag = 0;
     chkReGame = 0;
