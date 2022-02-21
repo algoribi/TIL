@@ -33,7 +33,7 @@ function gameStart() {
         if (chkReGame == 0) {
             chkAnswer(input);
 
-            input.splice(0, 3);
+            input.splice(0);
             counterTime++;
             
             if (ansFlag != 0) {
