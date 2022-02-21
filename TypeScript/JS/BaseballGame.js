@@ -43,6 +43,7 @@ function gameStart() {
                 console.log("> 숫자를 입력해 주세요.");
         } else {
             if (input[0] == 1) {
+                input.splice(0);
                 gameReSet();
             } else {
                 console.log("-------게임을 종료합니다!-------");
