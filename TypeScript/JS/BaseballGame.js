@@ -16,38 +16,30 @@ function BaseballGameStart() {
             if (userInput == 'give up') {
                 console.log(`정답 : ${answerNumberArray}\n`);
 
-                AskNewGame()
-                .then(function(returnUserAns) {
-                    askNewGameUsersAns = returnUserAns;
+                CallAskNewGame(function(returnUserInput) {
+                    askNewGameUsersAns = returnUserInput;
                     rl.pause();
-                }).catch(() => {
-                    console.log("* 입력 오류로 게임을 종료합니다.");
-                    rl.close();
                 });
-
+                
             } else if (!CheckInputFormat(userNumber)) {
                 InputGuidePrint();
             } else if (CompareUserNumberAndAnswerNumber(answerNumberArray, userNumber)) {
 
-                AskNewGame()
-                .then(function(returnUserAns) {
-                    askNewGameUsersAns = returnUserAns;
+                CallAskNewGame(function(returnUserInput) {
+                    askNewGameUsersAns = returnUserInput;
                     rl.pause();
-                }).catch(() => {
-                    console.log("* 입력 오류로 게임을 종료합니다.");
-                    rl.close();
                 });
 
             } else {
                 console.log("> 숫자를 입력해 주세요.");
             }
-    })
-    .on('pause', function() {
-        if (askNewGameUsersAns) {
+    });
+    rl.on('pause', function() {
+        if (askNewGameUsersAns == "yes") {
             answerNumberArray = NewGameSetting();
             rl.resume();
         } else {
-            console.log("--------게임을 종료합니다.--------");
+            console.log("\n--------게임을 종료합니다.--------");
             rl.close();
         }
     })
@@ -150,6 +142,18 @@ function PrintCompareResult(strike, ball) {
     }
 }
 
+function CallAskNewGame(callback) {
+    AskNewGame()
+    .then(function(returnUserAns) {
+        callback(returnUserAns);
+    }).catch(() => { 
+        console.log("* 올바르지 못한 입력값입니다.");
+        /*
+        console.log("* 올바른 값을 입력해 주세요!\n");
+        callback(CallAskNewGame());*/
+    });
+}
+
 function AskNewGame() {
     console.log("----------게임 종료----------");
     console.log("* 새로운 게임을 진행하시겠습니까?");
@@ -157,9 +161,9 @@ function AskNewGame() {
     return new Promise(function (resolve, reject) {
         rl.question('* Yes or No 를 입력해 주세요 : ', (userInput) => {
             if (userInput == "Yes" || userInput == "yes" || userInput == "YES") {
-                resolve(true);
+                resolve(userInput);
             } else if (userInput == "No" || userInput == "no" || userInput == "NO") {
-                resolve(false);
+                resolve(userInput);
             } else {
                 reject();
             }
