@@ -15,26 +15,19 @@ function BaseballGameStart() {
         const userNumber = userInput.split(' ');
             if (userInput == 'give up') {
                 console.log(`정답 : ${answerNumberArray}\n`);
-                AskNewGame()
-                .then(function(returnUserAns) {
-                    askNewGameUsersAns = returnUserAns;
+
+                CallAskNewGame(function(returnUserInput) {
+                    askNewGameUsersAns = returnUserInput;
                     rl.pause();
-                }).catch(() => {
-                    console.log("* 입력 오류로 게임을 종료합니다.");
-                    rl.close();
                 });
                 
             } else if (!CheckInputFormat(userNumber)) {
                 InputGuidePrint();
             } else if (CompareUserNumberAndAnswerNumber(answerNumberArray, userNumber)) {
 
-                AskNewGame()
-                .then(function(returnUserAns) {
-                    askNewGameUsersAns = returnUserAns;
+                CallAskNewGame(function(returnUserInput) {
+                    askNewGameUsersAns = returnUserInput;
                     rl.pause();
-                }).catch(() => {
-                    console.log("* 입력 오류로 게임을 종료합니다.");
-                    rl.close();
                 });
 
             } else {
@@ -49,8 +42,8 @@ function BaseballGameStart() {
             console.log("\n--------게임을 종료합니다.--------");
             rl.close();
         }
-    })
-    .on('close', function() {
+    });
+    rl.on('close', function() {
         process.exit();
     });
 }
@@ -149,11 +142,23 @@ function PrintCompareResult(strike, ball) {
     }
 }
 
+async function CallAskNewGame(callback) {
+    AskNewGame()
+    .then(function(returnUserAns) {
+        callback(returnUserAns);
+    }).catch(() => { 
+        console.log("* 올바른 값을 입력해 주세요!\n");
+        CallAskNewGame(function(returnUserAns) { 
+            callback(returnUserAns);
+        });
+    });
+}
+
 function AskNewGame() {
-    console.log("----------게임 종료----------");
-    console.log("* 새로운 게임을 진행하시겠습니까?");
-    
     return new Promise(function (resolve, reject) {
+        console.log("----------게임 종료----------");
+        console.log("* 새로운 게임을 진행하시겠습니까?");
+
         rl.question('* Yes or No 를 입력해 주세요 : ', (userInput) => {
             if (userInput == "Yes" || userInput == "yes" || userInput == "YES") {
                 resolve(userInput);
