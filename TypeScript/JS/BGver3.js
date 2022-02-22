@@ -4,7 +4,6 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-// 숫자 야구 게임 클래스
 class BaseballGame {
 
     inputUserNumber() {
@@ -14,19 +13,17 @@ class BaseballGame {
             console.log("-------새 게임을 시작합니다!-------");
             console.log("> 숫자를 입력해 주세요.");
             
-            // user에게 숫자를 입력받음
             rl.on('line', function (userInput) {
                 const userNumber = userInput.split(' ');
                 
-                // give up 입력시 정답을 알려주고 게임을 끝냄
                 if (userInput == 'give up') {
                     console.log(`정답 : ${answerNumberArray}\n`);
                     resolve();
-                } else if (!CheckInputFormat(userNumber)) { // user의 입력이 옳은 입력인지 검사함 (ex. 숫자가 맞는지, 0 ~ 9의 값이 맞는지 등..)
+                } else if (!CheckInputFormat(userNumber)) {
                     InputGuidePrint();
-                } else if (CompareUserNumberAndAnswerNumber(answerNumberArray, userNumber)) { // 유저가 입력한 숫자가 정답인지 검사 // 맞으면 게임을 종료
+                } else if (CompareUserNumberAndAnswerNumber(answerNumberArray, userNumber)) {
                     resolve();
-                } else { // 유저의 입력이 정답이 아닐 시 다시 입력을 받음
+                } else {
                     console.log("> 숫자를 입력해 주세요.");
                 }
             });
@@ -35,21 +32,9 @@ class BaseballGame {
 
 }
 
-/*
-let gameEnd = false;
-while(!gameEnd) {
-    GameTitlePrint();
-
-    const playBaseballGame = new BaseballGame();
-    playBaseballGame.inputUserNumber();
-    gameEnd = AskNewGame();
-} */
-
-
 GameStart();
 
 async function GameStart() {
-    //rl.on('pause', () => {});
     GameTitlePrint();
 
     const playBaseballGame = new BaseballGame();
