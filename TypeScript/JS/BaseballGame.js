@@ -15,19 +15,26 @@ function BaseballGameStart() {
         const userNumber = userInput.split(' ');
             if (userInput == 'give up') {
                 console.log(`정답 : ${answerNumberArray}\n`);
-
-                CallAskNewGame(function(returnUserInput) {
-                    askNewGameUsersAns = returnUserInput;
+                AskNewGame()
+                .then(function(returnUserAns) {
+                    askNewGameUsersAns = returnUserAns;
                     rl.pause();
+                }).catch(() => {
+                    console.log("* 입력 오류로 게임을 종료합니다.");
+                    rl.close();
                 });
                 
             } else if (!CheckInputFormat(userNumber)) {
                 InputGuidePrint();
             } else if (CompareUserNumberAndAnswerNumber(answerNumberArray, userNumber)) {
 
-                CallAskNewGame(function(returnUserInput) {
-                    askNewGameUsersAns = returnUserInput;
+                AskNewGame()
+                .then(function(returnUserAns) {
+                    askNewGameUsersAns = returnUserAns;
                     rl.pause();
+                }).catch(() => {
+                    console.log("* 입력 오류로 게임을 종료합니다.");
+                    rl.close();
                 });
 
             } else {
@@ -140,18 +147,6 @@ function PrintCompareResult(strike, ball) {
     } else {
         console.log(`✔ 도전 결과 : ${strike}S ${ball}B\n`);
     }
-}
-
-function CallAskNewGame(callback) {
-    AskNewGame()
-    .then(function(returnUserAns) {
-        callback(returnUserAns);
-    }).catch(() => { 
-        console.log("* 올바르지 못한 입력값입니다.");
-        /*
-        console.log("* 올바른 값을 입력해 주세요!\n");
-        callback(CallAskNewGame());*/
-    });
 }
 
 function AskNewGame() {
