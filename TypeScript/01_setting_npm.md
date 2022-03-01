@@ -122,3 +122,11 @@ console.log(num3);
 `node .\[file name].js`
 
 <img src="img/02.png" width="300px"></img><br/>
+
+## TypeScript
+
+`npm install --save-dev ts-node`
+
+`npm install --save-dev typescript`
+
+`npm run ts-start`
