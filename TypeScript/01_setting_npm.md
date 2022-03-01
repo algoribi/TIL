@@ -79,11 +79,10 @@ PS D:\...\workSpace\Nodejs>
 
 package.json은 npm을 통해 생성되는 node관련 component들의 dependency를 관리하는 모듈로서, Maven의 pom.xml과 비슷한 역할이라 생각하면 이해가 쉬울 수 있다.
 
-이제 npm 모듈로 기본이 되는 express 모듈을 설치해 보도록 하자. </br>
-터미널에 npm install [module] [option]을 입력하면 된다. `npm install express --save`
+다음으로 `npm install`을 실행한다.
 
 ```
-PS D:\...\workSpace\Nodejs> npm install express --save
+PS D:\...\workSpace\Nodejs> npm install
 
 added 50 packages, and audited 51 packages in 2s
 
@@ -104,8 +103,10 @@ package.json 파일을 보면 하단에 dependencies가 생성된 것을 볼 수
 설치를 무사히 마쳤다면 위와 같이 탐색기에서
 
 1. npm init으로 생성한 package.json
-2. npm install로 생성한 express node module
+2. npm install로 생성한 node_module
    을 확인할 수 있다.
+
+</br>
 
 ## VSCode에서 node.js 실행해보기
 
