@@ -68,6 +68,8 @@ app.use(cors(corsOptions));
 
 다음은 프론트에서 프록시를 통해 우회하는 방법이다.
 
+</br>
+
 #### 이미 존재하는 프록시 서버 이용하기
 
 ```
@@ -117,7 +119,7 @@ app.get("/webtoon/weekdayList?week=mon", (req, res) => {
 
 </br>
 
-### http-proxy-middleware setupProxy.js를 통한 미들웨어 설정
+#### http-proxy-middleware setupProxy.js를 통한 미들웨어 설정
 
 2번의 방법을 `http-proxy-middleware` 라이브러리를 사용해 미들웨어로 만들어 수동 커스터마이징 하는 방법이다.
 
@@ -159,7 +161,7 @@ app.get("/naver/webtoon/weekdayList?week=mon", (req, res) => {
 
 ### 단순 요청(Simple requests)에서 발생할 수 있는 문제
 
-<img src="img/simple-request.png" width="400px"></img><br/>
+<img src="img/simple-request.png"></img><br/>
 
 간단히 생각해 봤을 때 단순 요청(Simple requests)은 한 번만 요청하기 때문에 자원이 절약되는데 굳이 프리플라이트(Preflight) 요청을 사용하는 이유가 있을까?
 
