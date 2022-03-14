@@ -68,7 +68,7 @@ app.use(cors(corsOptions));
 
 다음은 프론트에서 프록시를 통해 우회하는 방법이다.
 
-<h3>1. 이미 존재하는 프록시 서버 이용하기</h3>
+#### 이미 존재하는 프록시 서버 이용하기
 
 ```
 https://cors-anywhere.herokuapp.com // 프록시 서버
