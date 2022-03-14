@@ -76,9 +76,13 @@ https://cors-anywhere.herokuapp.com // 프록시 서버
 https://cors-anywhere.herokuapp.com/https://tillog.netlify.com
 ```
 
-위와 같은 프록시 서버를 이용하게 되면 중간에서 요청을 가로채서 HTTP 헤더에 `Acccess-Control-Allow-Origin : *`를 설정해서 응답해준다. 문제를 간단히 해결할 수 있지만 속도가 느리다는 단점이 있다.
+위와 같은 프록시 서버를 이용하게 되면 중간에서 요청을 가로채서 HTTP 헤더에 `Acccess-Control-Allow-Origin : *`를 설정해서 응답해준다.
 
-2. package.json에 proxy값을 설정
+이는 문제를 간단히 해결할 수 있지만 속도가 느리다는 단점이 있다.
+
+</br>
+
+#### package.json에 proxy값을 설정
 
 package.json 에 proxy 값을 설정하여 proxy 기능을 활성화하는 방법이다.
 
@@ -94,7 +98,7 @@ app.get("https://comic.naver.com/webtoon/weekdayList?week=mon", (req, res) => {
 
 package.json에 다음과 같이 네이버 웹툰("https://comic.naver.com")에 대한 프록시 값을 추가해준다.
 
-```json
+```
 {
   /* ... */
   "proxy": "https://comic.naver.com"
@@ -111,7 +115,9 @@ app.get("/webtoon/weekdayList?week=mon", (req, res) => {
 
 이렇게 호출하면 브라우저에서는 로컬로부터 응답을 받아온 것으로 인식하기 때문에 CORS 에러를 해결할 수 있다.
 
-3. http-proxy-middleware setupProxy.js를 통한 미들웨어 설정
+</br>
+
+### http-proxy-middleware setupProxy.js를 통한 미들웨어 설정
 
 2번의 방법을 `http-proxy-middleware` 라이브러리를 사용해 미들웨어로 만들어 수동 커스터마이징 하는 방법이다.
 
@@ -119,7 +125,8 @@ app.get("/webtoon/weekdayList?week=mon", (req, res) => {
 npm install http-proxy-middleware
 ```
 
-라이브러리 install을 마치면 src 폴더 밑에 `setupProxy.js` 파일을 생성한다. (TypeScript template CRA(create-react-app)는 따로 지원하지 않는다. 따라서 그냥 src/setupProxy.js로 작성하면 CRA가 알아서 세팅해준다.)
+라이브러리 install을 마치면 src 폴더 밑에 `setupProxy.js` 파일을 생성한다. </br>
+(TypeScript template CRA(create-react-app)는 따로 지원하지 않는다. 따라서 그냥 src/setupProxy.js로 작성하면 CRA가 알아서 세팅해준다.)
 
 ```js
 // src/setupProxy.js
