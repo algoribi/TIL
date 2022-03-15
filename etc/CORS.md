@@ -156,27 +156,3 @@ app.get("/naver/webtoon/weekdayList?week=mon", (req, res) => {
 ```
 
 이렇게 관리가 가능하다.
-
-</br>
-
-### 단순 요청(Simple requests)에서 발생할 수 있는 문제
-
-<img src="img/simple-request.png"></img><br/>
-
-간단히 생각해 봤을 때 단순 요청(Simple requests)은 한 번만 요청하기 때문에 자원이 절약되는데 굳이 프리플라이트(Preflight) 요청을 사용하는 이유가 있을까?
-
-만약 CORS 정책을 모르는 서버로 Simple requests를 보낸다고 가정해보자.
-
-서버는 CORS를 모르기 때문에 **일단 요청을 처리**하고 응답하게 되는데 당연히 응답해야 할 `Access-Control-Allow-Origin` 헤더 값이 없을 것이다. 그럼 브라우저에서는 그제서야 Access-Control-Allow-Origin 에러를 발생시킨다.
-
-여기서 문제는 서버가 일단 요청을 처리한다는 것이다. GET의 경우 문제가 없겠지만 데이터의 변경이 일어나는 경우였다면 이는 큰 문제가 된다. **CORS 에러가 발생하기 전에 서버에서 요청을 모두 처리했기 때문이다.** 즉, 수정하면 안 되는 데이터까지 수정하게 되는 것이다.
-
-하지만 프리플라이트(Preflight) 요청을 사용하게 된다면 사전 요청을 통해 안전하게 요청을 주고받을 수 있게 된다.
-
-### 질문
-
-[MDN CORS](https://developer.mozilla.org/ko/docs/Web/HTTP/CORS#%EC%A0%91%EA%B7%BC_%EC%A0%9C%EC%96%B4_%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4_%EC%98%88%EC%A0%9C)
-
-Q. 단순 요청(Simple requests)을 **꼭** 사용해야 하는 경우가 있는가?
-
-> 일단 단순 요청은 조건이 매우 까다로워 보인다. 이런 까다로운 조건을 모두 만족시키며 단순 요청을 쓰느니 프리플라이트(Preflight) 요청만 사용해도 충분해 보이는데(마치 http Method에서 post로 put, delete 커버 가능하듯이) 단순 요청이 꼭 사용되는 시점이 있을까?
