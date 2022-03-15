@@ -91,7 +91,7 @@ package.json 에 proxy 값을 설정하여 proxy 기능을 활성화하는 방�
 예를 들어 네이버 월요웹툰 페이지를 크롤링하려고 한다.
 
 ```ts
-app.get("https://comic.naver.com/webtoon/weekdayList?week=mon", (req, res) => {
+axios.get("https://comic.naver.com/webtoon/weekdayList?week=mon", {
   /* ... */
 });
 ```
@@ -110,7 +110,7 @@ package.json에 다음과 같이 네이버 웹툰("https://comic.naver.com")에 
 그러고 나서 호출할 때 URL의 출처에 해당하는 부분을 지워주면 된다.
 
 ```ts
-app.get("/webtoon/weekdayList?week=mon", (req, res) => {
+axios.get("/webtoon/weekdayList?week=mon", {
   /* ... */
 });
 ```
