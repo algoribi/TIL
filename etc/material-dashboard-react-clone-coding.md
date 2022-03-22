@@ -28,5 +28,65 @@
 - crossorigin 옵션 : 리소스를 가져올 때 CORS를 사용해야 하는지 나타내는 옵션이다. [source](https://developer.mozilla.org/ko/docs/Web/HTML/Element/link)
 
 
+## React
+
+### Context
+
+- 리액트 컴포넌트들은 트리 형태로 구성되어 있는데, props를 통해 값을 전달하면 값의 수정이 있을 때 일일이 수정해줘야하는 불편함이 있다. 또한 원하는 컴포넌트에 값을 전달하기 위해 값이 필요 없는 중간 컴포넌트들 까지 props를 받아줘야 한다.(prop Drilling)
+
+<img src="img/context.png"></img><br/>
+
+- context는 global state 라고 볼 수 있다. 하지만 context를 사용하면 컴포넌트를 재사용하기 어려워질 수 있기 때문에 단순히 prop drilling을 피하기 위한 목적이라면 컴포넌트 합성(Component Composition)을 먼저 고려하길 권장한다. 
+
+- .displayName = 'string' : context 객체는 displayName문자열 속성을 설정할 수 있다. 이 문자열을 사용해서 context를 어떻게 보여줄 지 결정한다. 이는 개발자 도구에서 지정한 문자열로 표시된다.
+
+### useReducer
+
+  - useState의 대체 함수이다. (state, action) => newState의 형태로 reducer를 받고 dispatch 메서드와 짝의 형태로 현재 state를 반환한다. 
+  - 다수의 하윗값을 포함하는 복잡한 정적 로직을 만드는 경우나 다음 state가 이전 state에 의존적인 경우에 보통 useState보다 useReducer를 선호한다.
+  - 또한 useReducer는 자세한 업데이트를 트리거 하는 컴포넌트의 성능을 최적화할 수 있게 하는데, 이것은 콜백 대신 dispatch를 전달할 수 있기 때문이다.
+
+### prop-type
+
+- react에서 컴포넌트의 proptypes를 지정하는 방법은 defaultProp와 prop-types 라이브러리를 사용하는 것이다. [source](https://malonmiming.tistory.com/208)
+
+```JS
+import PropTypes from 'prop-types';
+
+const MyComponent = ({ name, children }) => {
+    return (...);
+};
+
+MyComponent.defaultProps = {
+    name : '홍길동'
+};
+
+MyComponent.propTypes = {
+    name : PropTypes.string,
+    title : propTypes.number.isRequired // 필수 설정일 때 씀
+}
+```
+
+### useMemo
+> useMemo의 'Memo'는 메모이제이션(Memoization)을 뜻한다.
+
+- useMemo는 useCallback과 더불어 컴포넌트의 성능을 최적화 하기위해 사용한다. 
+
+- 함수형 컴포넌트가 렌더링 된다는 말은 결국 함수 내부의 모든 변수가 초기화 된다는 말이다. 이 경우 useMemo를 사용하면 Memoize 된 값을 재사용 하는 것이 가능하다. 
+
+[source](https://leehwarang.github.io/2020/05/02/useMemo&useCallback.html)
+
+### useLocation
+
+- useLocation hooks는 사용자가 현재 머물러있는 페이지에 대한 정보를 알려주는 hooks이다. [source](https://velog.io/@yiyb0603/React-Router-dom%EC%9D%98-%EC%9C%A0%EC%9A%A9%ED%95%9C-hooks%EB%93%A4)
+
+```JS
+const location = useLocation();
+console.log(location);
+```
+- 위의 코드에서 console.log(location)을 실행하면 여러 정보가 나오지만 대표적으로 **pathname과 search**라는 객체가 출력된다. 
+
+- pathname은 링크(/, /home, /xx_page ...) search는 쿼리스트링(?keyword=hello)가 들어간다. [source](https://explain-programming.tistory.com/5)
+
 
 
