@@ -30,6 +30,62 @@
 
 ## React
 
+### ref & forwardRef
+> [source](https://www.daleseo.com/react-forward-ref/)
+
+#### ref 
+
+react에서 ref prop는 html 엘리먼트에 직접 접근하기 위해 사용된다. 
+
+```JS
+import React, { useRef } from "react";
+
+function Field() {
+  const inputRef = useRef(null);
+
+  function handleFocus() {
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      <input type="text" ref={inputRef} />
+      <button onClick={handleFocus}>입력란 포커스</button>
+    </>
+  );
+}
+```
+
+위의 예제에서 `Field`컴포넌트에서 useRef() Hooks 함수로 생성한 inputRef 객체를 input 엘리먼트의 ref prop으로 넘기고 있다. 이렇게 만들면 inputRef 객체의 current 속성에 `<input />` 엘리먼트의 레퍼런스가 할당되는데, 이를 통해 handleFocus() 이벤트 핸들러에서 `<input />`엘리먼트의 `focus()` 함수를 호출할 수 있다.
+
+#### forwardRef
+
+- react 컴포넌트에서 ref prop을 사용하려면 react가 제공하는 `forwardRef()`라는 함수를 사용해야 한다. 
+
+```JS
+import React, { forwardRef, useRef } from "react";
+
+const Input = forwardRef((props, ref) => {
+  return <input type="text" ref={ref} />;
+});
+
+function Field() {
+  const inputRef = useRef(null);
+
+  function handleFocus() {
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      <Input ref={inputRef} />
+      <button onClick={handleFocus}>입력란 포커스</button>
+    </>
+  );
+}
+```
+
+
 ### Context
 
 - 리액트 컴포넌트들은 트리 형태로 구성되어 있는데, props를 통해 값을 전달하면 값의 수정이 있을 때 일일이 수정해줘야하는 불편함이 있다. 또한 원하는 컴포넌트에 값을 전달하기 위해 값이 필요 없는 중간 컴포넌트들 까지 props를 받아줘야 한다.(prop Drilling)
@@ -89,4 +145,34 @@ console.log(location);
 - pathname은 링크(/, /home, /xx_page ...) search는 쿼리스트링(?keyword=hello)가 들어간다. [source](https://explain-programming.tistory.com/5)
 
 
+### document 
 
+- element.setAttribute() : 선택한 요소(element)의 속성(attribute)값을 정한다. [source](https://www.codingfactory.net/10419)
+
+```JS
+// 기본 형태
+element.setAttribute('attributeName', 'attributeValue')
+
+// ex
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript | .setAttribute()</title>
+  </head>
+  <body>
+    <p><a id="abc" href="#">CODING FACTORY</a></p>
+    <script>
+      document.getElementById( 'abc' ).setAttribute( 'href', 'https://www.codingfactory.net' );
+    </script>
+  </body>
+</html>
+
+// id 값이 abc인 요소의 href 속성을 바꾼다. 만약 이미 속성값이 존재한다면 그 값을 지우고 새 값을 적용한다.
+```
+
+## CSS 
+
+- CssBaseline : 브라우저마다 각기 다른 기본 css default 설정을 무시하고 일관적으로 보이도록 normalize 해주는 도구이다. <CssBaseline />을 앱의 최상단에 넣어주면 알아서 normalize 해준다. [source](https://kyounghwan01.github.io/blog/React/next/mui/#%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5)
+
+- styled : css 스타일 도구 [source](https://mui.com/system/styled/)
